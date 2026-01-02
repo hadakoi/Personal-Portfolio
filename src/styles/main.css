@@ -1,0 +1,319 @@
+/* CSS Variables & Reset */
+:root {
+    --bg-color: #050505;
+    --text-color: #a0a0a0;
+    --text-highlight: #ffffff;
+    --border-color: #2a2a2a;
+    --accent-color: #ffffff;
+    --font-mono: 'Courier New', Courier, monospace;
+    --panel-width: 40%;
+    --min-panel-width: 450px;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: var(--font-mono);
+    display: flex;
+    flex-direction: column;
+}
+
+/* Typography */
+h1 {
+    font-size: 2.5rem;
+    color: var(--text-highlight);
+    margin-bottom: 0.5rem;
+    font-weight: 400;
+    letter-spacing: -0.05em;
+}
+
+h2 {
+    color: var(--text-highlight);
+    font-size: 2rem;
+    font-weight: 400;
+    margin-bottom: 1.5rem;
+}
+
+p {
+    line-height: 1.6;
+}
+
+/* Layout */
+.container {
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
+
+/* Left Panel */
+.left-panel {
+    width: var(--panel-width);
+    border-right: 1px solid var(--border-color);
+    padding: 3rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-width: var(--min-panel-width);
+    overflow-y: auto;
+}
+
+.subtitle {
+    color: #666;
+    margin-bottom: 3rem;
+    font-size: 0.9rem;
+}
+
+.intro-section h2 {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+}
+
+.intro-text p {
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+    max-width: 90%;
+}
+
+.bottom-section {
+    margin-top: auto;
+    display: flex;
+    align-items: flex-end;
+    gap: 1.5rem;
+    padding-top: 2rem;
+}
+
+.ascii-art {
+    font-size: 6px;
+    line-height: 8px;
+    white-space: pre;
+    background: linear-gradient(180deg, #fff 0%, #444 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+    user-select: none;
+}
+
+.quote-box {
+    flex: 1;
+}
+
+.quote {
+    font-style: italic;
+    color: #666;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.quote-author {
+    color: #444;
+    font-size: 0.8rem;
+    display: block;
+}
+
+.footer {
+    margin-top: 1.5rem;
+    font-size: 0.75rem;
+    color: #333;
+}
+
+/* Right Panel (Accordion) */
+.right-panel {
+    flex: 1;
+    display: flex;
+    background: var(--bg-color);
+    overflow: hidden;
+}
+
+.tab {
+    border-right: 1px solid var(--border-color);
+    position: relative;
+    transition: flex 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+    overflow: hidden;
+    background: var(--bg-color);
+    cursor: pointer;
+    width: 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    outline: none;
+}
+
+/* Focus styles for accessibility */
+.tab:focus-visible {
+    z-index: 10;
+    box-shadow: inset 0 0 0 2px var(--text-highlight);
+}
+
+.tab.active {
+    flex: 1;
+    cursor: default;
+    width: auto;
+    border-right: none;
+}
+
+.tab-label-vertical {
+    position: absolute;
+    bottom: 5rem;
+    left: 50%;
+    transform: translateX(-50%) rotate(-90deg);
+    white-space: nowrap;
+    font-size: 0.9rem;
+    letter-spacing: 0.2em;
+    color: #555;
+    text-transform: uppercase;
+    transition: opacity 0.3s;
+    pointer-events: none;
+}
+
+.tab.active .tab-label-vertical {
+    opacity: 0;
+}
+
+.tab-number {
+    position: absolute;
+    top: 1.5rem;
+    color: #444;
+    font-size: 0.8rem;
+    font-family: var(--font-mono);
+}
+
+.tab-content {
+    opacity: 0;
+    transition: opacity 0.4s 0.3s;
+    padding: 4rem;
+    width: 100%;
+    height: 100%;
+    display: none;
+    overflow-y: auto;
+}
+
+.tab.active .tab-content {
+    display: block;
+    opacity: 1;
+}
+
+.tab-subtitle {
+    color: #555;
+    margin-bottom: 2rem;
+    font-size: 1rem;
+}
+
+.coming-soon {
+    color: #444;
+    font-style: italic;
+}
+
+/* Selection */
+::selection {
+    background: #333;
+    color: #fff;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-color);
+}
+
+::-webkit-scrollbar-thumb {
+    background: #333;
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    :root {
+        --panel-width: 100%;
+        --min-panel-width: 0;
+    }
+
+    html,
+    body {
+        overflow: auto;
+    }
+
+    .container {
+        flex-direction: column;
+        height: auto;
+        min-height: 100%;
+    }
+
+    .left-panel {
+        width: 100%;
+        min-width: 0;
+        border-right: none;
+        border-bottom: 1px solid var(--border-color);
+        padding: 2rem;
+        height: auto;
+    }
+
+    .bottom-section {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+
+    .right-panel {
+        flex-direction: column;
+        height: auto;
+    }
+
+    .tab {
+        width: 100%;
+        height: 60px;
+        border-right: none;
+        border-bottom: 1px solid var(--border-color);
+        transition: height 0.4s ease;
+        flex: none;
+    }
+
+    .tab.active {
+        height: auto;
+        min-height: 300px;
+    }
+
+    .tab-label-vertical {
+        transform: none;
+        bottom: auto;
+        left: 4rem;
+        top: 22px;
+        opacity: 1;
+    }
+
+    .tab.active .tab-label-vertical {
+        display: none;
+    }
+
+    .tab-number {
+        left: 1.5rem;
+        top: 22px;
+        transform: none;
+    }
+
+    .tab-content {
+        padding: 2rem;
+    }
+}

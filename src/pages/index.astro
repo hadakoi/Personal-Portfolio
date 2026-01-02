@@ -1,281 +1,183 @@
 ---
-import fs from 'node:fs';
-import path from 'node:path';
-
 const currentYear = new Date().getFullYear();
 
-const tags = [
-  "developer",
-  "student",
-  "security enthusiast"
-];
-
-// Load quotes from JSONL file
-const quotesPath = path.join(process.cwd(), 'src/data/quotes.jsonl');
-const quotesRaw = fs.readFileSync(quotesPath, 'utf-8');
-const quotes = quotesRaw.trim().split('\n').map(line => JSON.parse(line));
-
-// Load ASCII art
-const asciiArtPath = path.join(process.cwd(), 'src/data/art.txt');
-const asciiArt = fs.readFileSync(asciiArtPath, 'utf-8');
+const ASCII_ART = `
+                 _.---,_
+               .'       \`'.
+                \\    __..-'\\
+                 }-"\`       \\
+                /__,,..---.._|
+                \\            |
+                |---..__     |
+               /        \`\`"-./
+             .'---...__      |
+           .'          \`\`"-./
+      ,--./...,,,__        /
+      '--.'__    __\`\`\`.-. /._
+        / \`  \`  '  \`=/.-.|-._)
+        | .-.  .-.  "\\\\  /
+        || O| | O|  ""=='_\\
+      .-' '-'o '-'    ""=\\\`
+\`''--/-              ""=-,\\--._
+.---|-            ( ""=-. \\\`
+    \\             /\`)"=."=|'-.
+     '.       _.-' '  "=|\\|
+       (\`----\`    '="=|/
+        \`-.       "=/\`
+           '.     =/
+             \\   =|
+  .-.        |\` "=|
+ (   ~._     | "==|        _.-~\`\\
+  \\     ~.   |'"="|    _.-~      )
+   ;      ~-.|.-._|_.-~         /
+  /        _-(  /-.__          (
+ '._..--~~\`/\`/-'\\-._ \`~~-       ;
+          /"=|  |" =\\~-...___.-~
+         /=" /  | "==\\
+        / = (_  \\  "==\\
+       ;="=   \\_)  =="\\`;
 ---
 
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Aryan Kudva - Personal portfolio" />
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Aryan Kudva - Computer Science Student, Tech Enthusiast, and Security Researcher.">
+    <meta name="keywords" content="Aryan Kudva, Portfolio, Computer Science, Cybersecurity, Student">
+    <meta name="author" content="Aryan Kudva">
+    <meta name="theme-color" content="#000000">
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Syne+Mono&display=swap" rel="stylesheet" />
     <title>Aryan Kudva</title>
     <style>
-      @import '../styles/global.css';
+      @import '../styles/main.css';
     </style>
-  </head>
-  
-  <body>
-    <div class="portfolio-layout">
-      <aside class="sidebar">
-        <div class="sidebar__top">
-          <h1 class="name">Aryan Kudva</h1>
-          
-          <div class="terms">Tech Enthusiast, Student, Security-focused</div>
-          
-          <div class="intro">
-            <p>Yahallo!</p>
-            <p>I'm a computer science student with a strong interest in cybersecurity, Linux, and low-level systems.</p>
-            <p>Currently learning by building, researching, and contributing to student-led tech communities.</p>
-          </div>
-          
-          <div class="bottom-section">
-            <pre class="ascii-art" aria-hidden="true">{asciiArt}</pre>
-            <div class="quote-section">
-              <div class="typewriter-container">
-                <span class="typewriter-text" id="typewriter-text"></span>
-                <span class="typewriter-cursor"></span><br>
-                <span class="typewriter-author" id="typewriter-author"></span>
-              </div>
+</head>
+
+<body>
+    <div class="container">
+        <!-- Left Panel: Profile Info -->
+        <main class="left-panel">
+            <div class="left-panel-content">
+                <header>
+                    <h1>Aryan Kudva</h1>
+                    <p class="subtitle">tech enthusiast, student, security-focused</p>
+                </header>
+
+                <section class="intro-section">
+                    <h2>Yahallo!</h2>
+                    <div class="intro-text">
+                        <p>I'm a computer science student with a strong interest in cybersecurity, Linux, and low-level systems.</p>
+                        <p>Currently learning by building, researching, and contributing to student-led tech communities.</p>
+                    </div>
+                </section>
             </div>
-          </div>
-        </div>
-        
-        <footer class="sidebar__footer">
-          © {currentYear} aryan kudva
-        </footer>
-      </aside>
 
-      <main class="sections-container">
-        <section class="section section--collapsed" data-section="projects">
-          <div class="section__nav" role="button" tabindex="0" aria-label="Toggle Projects section">
-            <span class="section__nav-number">01</span>
-            <span class="section__nav-label">Projects</span>
-          </div>
-          <div class="section__content">
-            <header class="section__header">
-              <h2 class="section__title">Projects</h2>
-              <p class="section__subtitle">selected works</p>
-            </header>
-            <p class="empty-state">coming soon...</p>
-          </div>
-        </section>
-
-        <section class="section section--collapsed" data-section="experience">
-          <div class="section__nav" role="button" tabindex="0" aria-label="Toggle Experience section">
-            <span class="section__nav-number">02</span>
-            <span class="section__nav-label">Experience</span>
-          </div>
-          <div class="section__content">
-            <header class="section__header">
-              <h2 class="section__title">Experience</h2>
-              <p class="section__subtitle">professional journey</p>
-            </header>
-            <p class="empty-state">coming soon...</p>
-          </div>
-        </section>
-
-        <section class="section section--collapsed" data-section="education">
-          <div class="section__nav" role="button" tabindex="0" aria-label="Toggle Education section">
-            <span class="section__nav-number">03</span>
-            <span class="section__nav-label">Education</span>
-          </div>
-          <div class="section__content">
-            <header class="section__header">
-              <h2 class="section__title">Education</h2>
-              <p class="section__subtitle">academic background</p>
-            </header>
-            <p class="empty-state">coming soon...</p>
-          </div>
-        </section>
-
-        <section class="section section--collapsed" data-section="achievements">
-          <div class="section__nav" role="button" tabindex="0" aria-label="Toggle Achievements section">
-            <span class="section__nav-number">04</span>
-            <span class="section__nav-label">Achievements</span>
-          </div>
-          <div class="section__content">
-            <header class="section__header">
-              <h2 class="section__title">Achievements</h2>
-              <p class="section__subtitle">milestones & recognition</p>
-            </header>
-            <p class="empty-state">coming soon...</p>
-          </div>
-        </section>
-
-        <section class="section section--collapsed" data-section="contact">
-          <div class="section__nav" role="button" tabindex="0" aria-label="Toggle Contact section">
-            <span class="section__nav-number">05</span>
-            <span class="section__nav-label">Contact</span>
-          </div>
-          <div class="section__content">
-            <header class="section__header">
-              <h2 class="section__title">Contact</h2>
-              <p class="section__subtitle">get in touch</p>
-            </header>
-            <div class="contact-list">
-              <div class="contact-item">
-                <span class="contact-label">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="contact-icon"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
-                  email
-                </span>
-                <a href="mailto:aryankudva23@gmail.com" class="contact-value">aryankudva23@gmail.com</a>
-              </div>
-              <div class="contact-item">
-                <span class="contact-label">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" class="contact-icon"><path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.419-2.1568 2.419zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.419-2.1568 2.419z"/></svg>
-                  discord
-                </span>
-                <a href="https://discordapp.com/users/hadakoi" class="contact-value" target="_blank" rel="noopener">hadakoi</a>
-              </div>
-              <div class="contact-item">
-                <span class="contact-label">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="contact-icon"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
-                  github
-                </span>
-                <a href="https://github.com/hadakoi" class="contact-value" target="_blank" rel="noopener">github.com/hadakoi</a>
-              </div>
-              <div class="contact-item">
-                <span class="contact-label">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="contact-icon"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
-                  linkedin
-                </span>
-                <a href="https://linkedin.com/in/aryan-kudva" class="contact-value" target="_blank" rel="noopener">linkedin.com/in/aryan-kudva</a>
-              </div>
+            <div class="bottom-section">
+                <pre class="ascii-art" id="ascii-art-container" aria-hidden="true">{ASCII_ART}</pre>
+                <div class="quote-box">
+                    <p class="quote">The best way to predict the future is to invent it.</p>
+                    <span class="quote-author">- alan kay</span>
+                </div>
             </div>
-          </div>
+
+            <footer class="footer">
+                &copy; {currentYear} aryan kudva
+            </footer>
+        </main>
+
+        <!-- Right Panel: Tabs -->
+        <section class="right-panel" id="accordion" aria-label="Projects and Experience">
+
+            <!-- Projects Tab (Active by default) -->
+            <article class="tab active" data-target="projects" tabindex="0" role="button" aria-expanded="true">
+                <div class="tab-label-vertical">PROJECTS</div>
+                <div class="tab-number">01</div>
+                <div class="tab-content">
+                    <h2>Projects</h2>
+                    <p class="tab-subtitle">selected works</p>
+                    <p class="coming-soon">coming soon...</p>
+                </div>
+            </article>
+
+            <!-- Experience Tab -->
+            <article class="tab" data-target="experience" tabindex="0" role="button" aria-expanded="false">
+                <div class="tab-label-vertical">EXPERIENCE</div>
+                <div class="tab-number">02</div>
+                <div class="tab-content">
+                    <h2>Experience</h2>
+                    <p class="tab-subtitle">work history</p>
+                    <p class="coming-soon">coming soon...</p>
+                </div>
+            </article>
+
+            <!-- Education Tab -->
+            <article class="tab" data-target="education" tabindex="0" role="button" aria-expanded="false">
+                <div class="tab-label-vertical">EDUCATION</div>
+                <div class="tab-number">03</div>
+                <div class="tab-content">
+                    <h2>Education</h2>
+                    <p class="tab-subtitle">academic background</p>
+                    <p class="coming-soon">coming soon...</p>
+                </div>
+            </article>
+
+            <!-- Achievements Tab -->
+            <article class="tab" data-target="achievements" tabindex="0" role="button" aria-expanded="false">
+                <div class="tab-label-vertical">ACHIEVEMENTS</div>
+                <div class="tab-number">04</div>
+                <div class="tab-content">
+                    <h2>Achievements</h2>
+                    <p class="tab-subtitle">awards & honors</p>
+                    <p class="coming-soon">coming soon...</p>
+                </div>
+            </article>
+
+            <!-- Contact Tab -->
+            <article class="tab" data-target="contact" tabindex="0" role="button" aria-expanded="false">
+                <div class="tab-label-vertical">CONTACT</div>
+                <div class="tab-number">05</div>
+                <div class="tab-content">
+                    <h2>Contact</h2>
+                    <p class="tab-subtitle">get in touch</p>
+                    <p class="coming-soon">aryguy2005@gmail.com</p>
+                </div>
+            </article>
+
         </section>
-      </main>
     </div>
 
-    <script define:vars={{ quotes }}>
-      const TYPING_SPEED = 80;
-      const DELETING_SPEED = 40;
-      const DISPLAY_DURATION = 15000;
-      const PAUSE_BEFORE_DELETE = 500;
-
-      let quoteIndex = Math.floor(Math.random() * quotes.length);
-      let charIndex = 0;
-      let authorCharIndex = 0;
-      let isDeleting = false;
-      let isWaiting = false;
-      let typingStage = 'text'; // 'text' or 'author'
-
-      const textElement = document.getElementById('typewriter-text');
-      const authorElement = document.getElementById('typewriter-author');
-      const cursor = document.querySelector('.typewriter-cursor');
-
-      function type() {
-        const currentQuote = quotes[quoteIndex];
-        const fullAuthorText = `— ${currentQuote.author}`;
-        
-        if (isWaiting) return;
-
-        if (!isDeleting) {
-          if (typingStage === 'text') {
-            // Move cursor after text
-            textElement.after(cursor);
-            if (charIndex < currentQuote.text.length) {
-              textElement.textContent = currentQuote.text.substring(0, charIndex + 1);
-              charIndex++;
-              setTimeout(type, TYPING_SPEED);
-            } else {
-              typingStage = 'author';
-              setTimeout(type, PAUSE_BEFORE_DELETE);
-            }
-          } else if (typingStage === 'author') {
-            // Move cursor after author
-            authorElement.after(cursor);
-            if (authorCharIndex < fullAuthorText.length) {
-              authorElement.textContent = fullAuthorText.substring(0, authorCharIndex + 1);
-              authorCharIndex++;
-              setTimeout(type, TYPING_SPEED);
-            } else {
-              isWaiting = true;
-              setTimeout(() => {
-                isWaiting = false;
-                isDeleting = true;
-                setTimeout(type, PAUSE_BEFORE_DELETE);
-              }, DISPLAY_DURATION);
-            }
-          }
-        } else {
-          // Delete both author and text
-          if (authorCharIndex > 0) {
-            authorElement.after(cursor);
-            authorElement.textContent = fullAuthorText.substring(0, authorCharIndex - 1);
-            authorCharIndex--;
-            setTimeout(type, DELETING_SPEED);
-          } else if (charIndex > 0) {
-            textElement.after(cursor);
-            textElement.textContent = currentQuote.text.substring(0, charIndex - 1);
-            charIndex--;
-            setTimeout(type, DELETING_SPEED);
-          } else {
-            isDeleting = false;
-            typingStage = 'text';
-            // Randomized selection
-            quoteIndex = Math.floor(Math.random() * quotes.length);
-            setTimeout(type, 500);
-          }
-        }
-      }
-
-      const sections = document.querySelectorAll('.section');
-      let activeSection = null;
-
-      function toggleSection(section) {
-        const isCurrentlyExpanded = section.classList.contains('section--expanded');
-        
-        sections.forEach(s => {
-          s.classList.remove('section--expanded');
-          s.classList.add('section--collapsed');
-        });
-        
-        if (!isCurrentlyExpanded) {
-          section.classList.remove('section--collapsed');
-          section.classList.add('section--expanded');
-          activeSection = section;
-        } else {
-          activeSection = null;
-        }
-      }
-
-      sections.forEach(section => {
-        const nav = section.querySelector('.section__nav');
-        nav.addEventListener('click', () => toggleSection(section));
-        nav.addEventListener('keydown', (e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            toggleSection(section);
-          }
-        });
-      });
-
+    <script>
       document.addEventListener('DOMContentLoaded', () => {
-        setTimeout(type, 500);
+        const tabs = document.querySelectorAll('.tab');
+
+        tabs.forEach(tab => {
+          tab.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              activateTab(tab);
+            }
+          });
+
+          tab.addEventListener('click', () => {
+            activateTab(tab);
+          });
+        });
+
+        function activateTab(tab) {
+          if (tab.classList.contains('active')) return;
+
+          tabs.forEach(t => {
+            t.classList.remove('active');
+            t.setAttribute('aria-expanded', 'false');
+          });
+
+          tab.classList.add('active');
+          tab.setAttribute('aria-expanded', 'true');
+        }
       });
     </script>
-  </body>
+</body>
+
 </html>
