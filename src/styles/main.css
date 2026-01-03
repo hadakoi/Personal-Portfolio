@@ -1,14 +1,10 @@
-/* ==========================================================================
-   CSS Variables & Design Tokens
-   ========================================================================== */
-
 :root {
-    /* Colors - WCAG AA Compliant */
+
     --color-bg: #050505;
     --color-text-primary: #ffffff;
-    --color-text-secondary: #b0b0b0;    /* ~8:1 contrast ratio */
-    --color-text-muted: #888888;        /* ~5:1 contrast ratio */
-    --color-text-subtle: #666666;       /* ~3.5:1 - large text/UI only */
+    --color-text-secondary: #b0b0b0;
+    --color-text-muted: #888888;
+    --color-text-subtle: #666666;
     --color-border: #2a2a2a;
     --color-border-hover: #3a3a3a;
     --color-surface-hover: rgba(255, 255, 255, 0.03);
@@ -17,12 +13,12 @@
     --color-scrollbar: #333333;
     --color-scrollbar-hover: #555555;
 
-    /* Typography */
+
     --font-mono: 'Courier New', Courier, monospace;
     --line-height-normal: 1.6;
     --line-height-tight: 1.3;
 
-    /* Layout */
+
     --panel-width: 40%;
     --min-panel-width: 450px;
     --tab-width: 60px;
@@ -33,15 +29,13 @@
     --spacing-xl: 3rem;
     --spacing-2xl: 4rem;
 
-    /* Animation */
+
     --transition-fast: 0.2s ease;
     --transition-smooth: 0.4s cubic-bezier(0.25, 1, 0.5, 1);
     --transition-slow: 0.5s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
-/* ==========================================================================
-   Reset & Base Styles
-   ========================================================================== */
+
 
 *,
 *::before,
@@ -68,9 +62,7 @@ body {
     line-height: var(--line-height-normal);
 }
 
-/* ==========================================================================
-   Typography
-   ========================================================================== */
+
 
 h1 {
     font-size: clamp(1.75rem, 5vw, 2.5rem);
@@ -93,9 +85,7 @@ p {
     line-height: var(--line-height-normal);
 }
 
-/* ==========================================================================
-   Skip Link (Accessibility)
-   ========================================================================== */
+
 
 .skip-link {
     position: absolute;
@@ -118,9 +108,7 @@ p {
     outline-offset: 2px;
 }
 
-/* ==========================================================================
-   Layout
-   ========================================================================== */
+
 
 .container {
     display: flex;
@@ -128,9 +116,7 @@ p {
     min-height: 100vh;
 }
 
-/* ==========================================================================
-   Left Panel
-   ========================================================================== */
+
 
 .left-panel {
     width: var(--panel-width);
@@ -140,7 +126,6 @@ p {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    border-right: 1px solid var(--color-border);
     overflow-y: auto;
     scroll-behavior: smooth;
 }
@@ -193,13 +178,47 @@ p {
     font-style: italic;
     color: var(--color-text-muted);
     font-size: 0.9rem;
-    margin-bottom: var(--spacing-xs);
+    margin: 0;
+    display: inline;
 }
 
 .quote-author {
     display: block;
     font-size: 0.8rem;
     color: var(--color-text-subtle);
+    text-transform: lowercase;
+}
+
+
+.typewriter-container {
+    display: block;
+}
+
+.typewriter-text {
+    display: inline;
+}
+
+.typewriter-cursor {
+    display: inline-block;
+    width: 2px;
+    height: 1em;
+    background-color: var(--color-text-muted);
+    margin-left: 2px;
+    vertical-align: text-bottom;
+    animation: blink 1s steps(1) infinite;
+}
+
+@keyframes blink {
+
+    0%,
+    50% {
+        opacity: 1;
+    }
+
+    51%,
+    100% {
+        opacity: 0;
+    }
 }
 
 .footer {
@@ -208,25 +227,24 @@ p {
     color: var(--color-text-subtle);
 }
 
-/* ==========================================================================
-   Right Panel (Tab Navigation)
-   ========================================================================== */
+
 
 .right-panel {
     flex: 1;
     display: flex;
+    justify-content: flex-end;
     background: var(--color-bg);
     overflow: hidden;
 }
 
-/* Tab Container */
+
 .tab {
     position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
     width: var(--tab-width);
-    border-right: 1px solid var(--color-border);
+    border-left: 1px solid var(--color-border);
     background: var(--color-bg);
     cursor: pointer;
     outline: none;
@@ -235,6 +253,10 @@ p {
         width var(--transition-slow),
         flex var(--transition-slow),
         background-color var(--transition-fast);
+}
+
+.tab:first-child {
+    border-left: 1px solid var(--color-border);
 }
 
 .tab:hover {
@@ -254,14 +276,13 @@ p {
     flex: 1;
     width: auto;
     cursor: default;
-    border-right: none;
 }
 
 .tab.active:hover {
     background-color: transparent;
 }
 
-/* Tab Label (Vertical) */
+
 .tab-label-vertical {
     position: absolute;
     bottom: 5rem;
@@ -287,7 +308,7 @@ p {
     opacity: 0;
 }
 
-/* Tab Number */
+
 .tab-number {
     position: absolute;
     top: var(--spacing-md);
@@ -302,7 +323,7 @@ p {
     color: var(--color-text-secondary);
 }
 
-/* Tab Content */
+
 .tab-content {
     width: 100%;
     height: 100%;
@@ -329,29 +350,72 @@ p {
     font-style: italic;
 }
 
-/* ==========================================================================
-   Contact Section
-   ========================================================================== */
 
-.contact-link {
-    color: var(--color-text-secondary);
-    text-decoration: none;
-    transition: color var(--transition-fast);
+
+.contact-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
 }
 
-.contact-link:hover,
-.contact-link:focus {
+.contact-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.contact-icon {
+    width: 1.2rem;
+    height: 1.2rem;
+    color: var(--color-text-primary);
+    opacity: 1;
+    flex-shrink: 0;
+    margin-right: var(--spacing-sm);
+}
+
+.contact-label {
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+    letter-spacing: 0.04em;
+    text-transform: lowercase;
+    min-width: 6rem;
+    display: flex;
+    align-items: center;
+}
+
+.contact-value {
+    font-size: 0.9rem;
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    position: relative;
+    transition: color 0.2s ease;
+}
+
+.contact-value::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 1px;
+    bottom: -1px;
+    left: 0;
+    background-color: var(--color-text-secondary);
+    transition: width 0.25s ease;
+}
+
+.contact-value:hover {
     color: var(--color-text-primary);
 }
 
-.contact-link:focus-visible {
+.contact-value:hover::after {
+    width: 100%;
+}
+
+.contact-value:focus-visible {
     outline: 2px solid var(--color-text-primary);
     outline-offset: 2px;
 }
 
-/* ==========================================================================
-   Selection & Scrollbar
-   ========================================================================== */
+
 
 ::selection {
     background: var(--color-selection-bg);
@@ -376,11 +440,10 @@ p {
     background: var(--color-scrollbar-hover);
 }
 
-/* ==========================================================================
-   Reduced Motion
-   ========================================================================== */
+
 
 @media (prefers-reduced-motion: reduce) {
+
     *,
     *::before,
     *::after {
@@ -391,9 +454,7 @@ p {
     }
 }
 
-/* ==========================================================================
-   Responsive - Tablet (1024px)
-   ========================================================================== */
+
 
 @media (max-width: 1024px) {
     :root {
@@ -415,9 +476,7 @@ p {
     }
 }
 
-/* ==========================================================================
-   Responsive - Mobile (768px)
-   ========================================================================== */
+
 
 @media (max-width: 768px) {
     :root {
@@ -497,11 +556,10 @@ p {
     }
 }
 
-/* ==========================================================================
-   Print Styles
-   ========================================================================== */
+
 
 @media print {
+
     .skip-link,
     .ascii-art {
         display: none !important;
