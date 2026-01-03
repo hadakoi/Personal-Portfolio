@@ -104,6 +104,45 @@ const tabs = [
 
     <a href="#main-content" class="skip-link">Skip to main content</a>
 
+    <!-- Mobile Hamburger Button -->
+    <button class="hamburger" id="hamburger-btn" aria-label="Open navigation menu" aria-expanded="false" aria-controls="nav-drawer">
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+    </button>
+
+    <!-- Mobile Navigation Drawer -->
+    <div class="nav-drawer" id="nav-drawer" aria-hidden="true">
+        <div class="drawer-header">
+            <span class="drawer-title">Navigation</span>
+            <button class="drawer-close" id="drawer-close" aria-label="Close navigation menu">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+        </div>
+        <nav class="drawer-nav" role="navigation" aria-label="Mobile navigation">
+            {tabs.map((tab) => (
+                <button class="drawer-nav-item" data-section={tab.id}>
+                    <span class="drawer-nav-number">{tab.number}</span>
+                    <span class="drawer-nav-label">{tab.label}</span>
+                </button>
+            ))}
+        </nav>
+    </div>
+    <div class="drawer-overlay" id="drawer-overlay"></div>
+
+    <!-- Mobile Section View (hidden by default) -->
+    <div class="mobile-section-view" id="mobile-section-view" aria-hidden="true">
+        <header class="mobile-section-header">
+            <button class="back-button" id="back-button" aria-label="Back to home">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+                <span>Back</span>
+            </button>
+        </header>
+        <div class="mobile-section-content" id="mobile-section-content">
+            <!-- Content injected dynamically -->
+        </div>
+    </div>
+
     <div class="container">
 
         <main class="left-panel" id="main-content">
@@ -300,21 +339,18 @@ const tabs = [
 
         setTimeout(type, 500);
 
-
+        // Desktop tab functionality
         const tablist = document.querySelector('[role="tablist"]');
         const tabs = Array.from(document.querySelectorAll('[role="tab"]'));
-
 
         function toggleTab(tab) {
           const isCurrentlyActive = tab.classList.contains('active');
           
-
           tabs.forEach(t => {
             t.classList.remove('active');
             t.setAttribute('aria-selected', 'false');
             t.setAttribute('tabindex', '-1');
           });
-
 
           if (!isCurrentlyActive) {
             tab.classList.add('active');
@@ -323,11 +359,9 @@ const tabs = [
           }
         }
 
-
         tabs.forEach(tab => {
           tab.addEventListener('click', () => toggleTab(tab));
         });
-
 
         tablist?.addEventListener('keydown', (e) => {
           const currentIndex = tabs.findIndex(t => t === document.activeElement);
@@ -364,7 +398,98 @@ const tabs = [
           tabs[newIndex].focus();
         });
 
+        // Mobile navigation functionality
+        const hamburgerBtn = document.getElementById('hamburger-btn');
+        const drawerCloseBtn = document.getElementById('drawer-close');
+        const navDrawer = document.getElementById('nav-drawer');
+        const drawerOverlay = document.getElementById('drawer-overlay');
+        const drawerNavItems = document.querySelectorAll('.drawer-nav-item');
+        const mobileSectionView = document.getElementById('mobile-section-view');
+        const mobileSectionContent = document.getElementById('mobile-section-content');
+        const backButton = document.getElementById('back-button');
+        const mainContainer = document.querySelector('.container');
+        const onekoEl = document.getElementById('oneko');
 
+        function isMobileView() {
+          return window.innerWidth <= 768;
+        }
+
+        function hideOneko() {
+          if (onekoEl && isMobileView()) {
+            onekoEl.style.display = 'none';
+          }
+        }
+
+        function showOneko() {
+          if (onekoEl && isMobileView()) {
+            onekoEl.style.display = '';
+          }
+        }
+
+        function openDrawer() {
+          navDrawer.classList.add('open');
+          drawerOverlay.classList.add('open');
+          hamburgerBtn.setAttribute('aria-expanded', 'true');
+          navDrawer.setAttribute('aria-hidden', 'false');
+          document.body.style.overflow = 'hidden';
+          hideOneko();
+        }
+
+        function closeDrawer() {
+          navDrawer.classList.remove('open');
+          drawerOverlay.classList.remove('open');
+          hamburgerBtn.setAttribute('aria-expanded', 'false');
+          navDrawer.setAttribute('aria-hidden', 'true');
+          document.body.style.overflow = '';
+          if (!mobileSectionView.classList.contains('active')) {
+            showOneko();
+          }
+        }
+
+        function showMobileSection(sectionId) {
+          const tabPanel = document.getElementById(`panel-${sectionId}`);
+          if (tabPanel) {
+            mobileSectionContent.innerHTML = tabPanel.innerHTML;
+            mobileSectionView.classList.add('active');
+            mobileSectionView.setAttribute('aria-hidden', 'false');
+            mainContainer.style.display = 'none';
+            hamburgerBtn.style.display = 'none';
+            hideOneko();
+          }
+          closeDrawer();
+        }
+
+        function hideMobileSection() {
+          mobileSectionView.classList.remove('active');
+          mobileSectionView.setAttribute('aria-hidden', 'true');
+          mainContainer.style.display = '';
+          hamburgerBtn.style.display = '';
+          mobileSectionContent.innerHTML = '';
+          showOneko();
+        }
+
+        hamburgerBtn?.addEventListener('click', openDrawer);
+        drawerCloseBtn?.addEventListener('click', closeDrawer);
+        drawerOverlay?.addEventListener('click', closeDrawer);
+        backButton?.addEventListener('click', hideMobileSection);
+
+        drawerNavItems.forEach(item => {
+          item.addEventListener('click', () => {
+            const sectionId = item.dataset.section;
+            showMobileSection(sectionId);
+          });
+        });
+
+        // Close drawer on Escape key
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape') {
+            if (navDrawer.classList.contains('open')) {
+              closeDrawer();
+            } else if (mobileSectionView.classList.contains('active')) {
+              hideMobileSection();
+            }
+          }
+        });
       });
     </script>
     <script src="/oneko.js" is:inline></script>
