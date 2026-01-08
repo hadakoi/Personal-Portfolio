@@ -1,0 +1,59 @@
+---
+interface EducationEntry {
+    institution: string;
+    degree: string;
+    date: string;
+    status?: 'current' | 'completed';
+    type: 'college' | 'school';
+}
+
+const educationData: EducationEntry[] = [
+    {
+        institution: 'Manipal Institute of Technology',
+        degree: 'Bachelor of Technology in Computer Science & Engineering',
+        date: 'Expected July 2027',
+        status: 'current',
+        type: 'college'
+    },
+    {
+        institution: 'Headstart Educational Academy',
+        degree: 'Cambridge International AS and A Level',
+        date: 'Graduated May 2023',
+        status: 'completed',
+        type: 'school'
+    }
+];
+---
+
+<div class="education-timeline">
+    <div class="timeline-line"></div>
+    
+    {educationData.map((entry) => (
+        <div class="timeline-entry">
+            <div class="timeline-node"></div>
+            <div class="timeline-card">
+                <div class="timeline-header">
+                    {entry.type === 'college' ? (
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="timeline-icon">
+                            <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+                            <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+                        </svg>
+                    ) : (
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="timeline-icon">
+                            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+                            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+                        </svg>
+                    )}
+                    <h3 class="timeline-institution">
+                        {entry.institution}
+                    </h3>
+                    {entry.status === 'current' && <span class="timeline-status">CURRENT</span>}
+                </div>
+                <p class="timeline-degree">{entry.degree}</p>
+                <div class="timeline-meta">
+                    <p class="timeline-date">{entry.date}</p>
+                </div>
+            </div>
+        </div>
+    ))}
+</div>

@@ -1,10 +1,12 @@
 .container {
     display: flex;
     width: 100%;
-    min-height: 100vh;
+    height: 100vh;
+    overflow: hidden;
 }
 
 .left-panel {
+    position: relative;
     width: var(--panel-width);
     min-width: var(--min-panel-width);
     max-height: 100vh;

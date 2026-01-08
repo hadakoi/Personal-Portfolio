@@ -1,0 +1,134 @@
+---
+interface Project {
+    title: string;
+    description: string;
+    skills: string[];
+    url?: string;
+}
+
+const projects: Project[] = [
+    {
+        title: 'Placeholder Project One',
+        description: 'A brief description of this project and what it does.',
+        skills: ['Python', 'React', 'TypeScript'],
+        url: 'https://github.com'
+    },
+    {
+        title: 'Placeholder Project Two',
+        description: 'Another project with different technologies.',
+        skills: ['Rust', 'C++', 'Linux'],
+        url: 'https://github.com'
+    },
+    {
+        title: 'Placeholder Project Three',
+        description: 'A cybersecurity-focused project.',
+        skills: ['Python', 'Linux', 'Security'],
+        url: 'https://github.com'
+    },
+    {
+        title: 'Placeholder Project Four',
+        description: 'Web development and design work.',
+        skills: ['React', 'TypeScript', 'CSS'],
+        url: 'https://github.com'
+    }
+];
+
+// Extract unique skills from all projects
+const allSkills = [...new Set(projects.flatMap(p => p.skills))].sort();
+---
+
+<div class="projects-showcase">
+    <!-- Skills Cloud -->
+    <div class="skills-cloud">
+        <button class="skill-tag active" data-skill="all">All</button>
+        {allSkills.map((skill, i) => (
+            <button 
+                class="skill-tag" 
+                data-skill={skill.toLowerCase()}
+                style={`--float-delay: ${i * 0.2}s`}
+            >
+                {skill}
+            </button>
+        ))}
+    </div>
+
+    <!-- Filter Indicator -->
+    <p class="filter-indicator">
+        Showing: <span class="filter-label">All Projects</span>
+    </p>
+
+    <!-- Projects Grid -->
+    <div class="projects-grid">
+        {projects.map((project) => (
+            <div 
+                class="project-card" 
+                data-skills={project.skills.map(s => s.toLowerCase()).join(',')}
+            >
+                <h3 class="project-title">
+                    {project.url ? (
+                        <a href={project.url} target="_blank" rel="noopener">{project.title}</a>
+                    ) : (
+                        project.title
+                    )}
+                </h3>
+                <p class="project-description">{project.description}</p>
+                <div class="project-skills">
+                    {project.skills.map(skill => (
+                        <span class="project-skill-tag">{skill}</span>
+                    ))}
+                </div>
+            </div>
+        ))}
+    </div>
+</div>
+
+<script>
+    // Skills filter functionality using event delegation with capture phase
+    document.addEventListener('click', (event) => {
+        const tag = event.target.closest('.skill-tag');
+        if (!tag) return;
+        
+        // Prevent click from bubbling to parent tab element
+        event.stopPropagation();
+        event.preventDefault();
+        
+        // Find the parent showcase container
+        const showcase = tag.closest('.projects-showcase');
+        if (!showcase) return;
+        
+        const skill = tag.dataset.skill;
+        const allTags = showcase.querySelectorAll('.skill-tag');
+        const projectCards = showcase.querySelectorAll('.project-card');
+        const filterLabel = showcase.querySelector('.filter-label');
+        
+        // Update active state
+        allTags.forEach(t => t.classList.remove('active'));
+        tag.classList.add('active');
+
+        // Filter projects with animation
+        if (skill === 'all') {
+            projectCards.forEach((card, i) => {
+                card.classList.remove('hidden');
+                card.style.animation = 'none';
+                card.offsetHeight; // Trigger reflow
+                card.style.animation = `fadeIn 0.3s ease ${i * 0.05}s forwards`;
+            });
+            if (filterLabel) filterLabel.textContent = 'All Projects';
+        } else {
+            let visibleIndex = 0;
+            projectCards.forEach(card => {
+                const cardSkills = card.dataset.skills?.split(',') || [];
+                if (cardSkills.includes(skill)) {
+                    card.classList.remove('hidden');
+                    card.style.animation = 'none';
+                    card.offsetHeight; // Trigger reflow
+                    card.style.animation = `fadeIn 0.3s ease ${visibleIndex * 0.05}s forwards`;
+                    visibleIndex++;
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+            if (filterLabel) filterLabel.textContent = tag.textContent || skill;
+        }
+    }, true); // Use capture phase
+</script>

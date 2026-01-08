@@ -1,0 +1,24 @@
+---
+import BlogPost from '../../layouts/BlogPost.astro';
+
+// Get the slug from the URL
+export async function getStaticPaths() {
+    const postFiles = import.meta.glob('../../content/blog/*.md', { eager: true });
+    
+    return Object.entries(postFiles).map(([path, post]: [string, any]) => {
+        const slug = path.split('/').pop()?.replace('.md', '');
+        return {
+            params: { slug },
+            props: { post }
+        };
+    });
+}
+
+const { post } = Astro.props;
+const { title, description, date, tags } = post.frontmatter;
+const Content = post.Content;
+---
+
+<BlogPost title={title} description={description} date={date} tags={tags}>
+    <Content />
+</BlogPost>

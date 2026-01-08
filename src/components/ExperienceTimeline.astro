@@ -1,0 +1,53 @@
+---
+interface ExperienceEntry {
+    role: string;
+    organization: string;
+    url: string;
+    dates: string;
+}
+
+const experienceData: ExperienceEntry[] = [
+    {
+        role: 'Researcher',
+        organization: 'MIT Center for Advanced Scientific & Industrial Research',
+        url: 'https://www.ecitis.org/', // Replace with actual URL
+        dates: '2025 July - Present'
+    },
+    {
+        role: 'Treasurer & Technical Director',
+        organization: 'PRISM',
+        url: 'https://theprism.fyi/', // Replace with actual URL
+        dates: 'Present'
+    },
+    {
+        role: 'Cybersecurity Collab Head',
+        organization: 'Manipal Information Security Team',
+        url: 'https://www.wearemist.in/', // Replace with actual URL
+        dates: '2023 December - Present'
+    },
+    {
+        role: 'Senior Committee',
+        organization: 'IECSE Manipal',
+        url: 'https://iecsemanipal.com/', // Replace with actual URL
+        dates: '2024 January - Present'
+    }
+];
+---
+
+<div class="experience-ledger">
+    <div class="ledger-line"></div>
+    
+    {experienceData.map((entry, index) => (
+        <div class="ledger-entry">
+            <div class="ledger-node"></div>
+            <div class="ledger-card">
+                <div class="ledger-content">
+                    <p class="ledger-role">
+                        {entry.role} — <a href={entry.url} target="_blank" rel="noopener" class="ledger-org">{entry.organization}</a>
+                    </p>
+                    <p class="ledger-dates">{entry.dates}</p>
+                </div>
+            </div>
+        </div>
+    ))}
+</div>

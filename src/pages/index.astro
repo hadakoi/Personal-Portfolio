@@ -9,6 +9,7 @@ import TabPanel from '../components/TabPanel.astro';
 import MobileNav from '../components/MobileNav.astro';
 import TypewriterScript from '../components/TypewriterScript.astro';
 import InteractivityScript from '../components/InteractivityScript.astro';
+import EducationTimeline from '../components/EducationTimeline.astro';
 
 // Data
 const currentYear = new Date().getFullYear();
@@ -60,10 +61,10 @@ const ASCII_ART = `
        ;="=   \\_)  =="\\`;
 
 const tabs = [
-  { id: 'projects', label: 'Projects', number: 'I', subtitle: 'selected works', content: 'coming soon...' },
-  { id: 'experience', label: 'Experience', number: 'II', subtitle: 'work history', content: 'coming soon...' },
-  { id: 'education', label: 'Education', number: 'III', subtitle: 'academic background', content: 'coming soon...' },
-  { id: 'achievements', label: 'Achievements', number: 'IV', subtitle: 'awards & honors', content: 'coming soon...' },
+  { id: 'projects', label: 'Projects', number: 'I', subtitle: 'selected works', isProjects: true },
+  { id: 'experience', label: 'Experience', number: 'II', subtitle: 'work history', isExperience: true },
+  { id: 'education', label: 'Education', number: 'III', subtitle: 'academic background', isEducation: true },
+  { id: 'achievements', label: 'Achievements', number: 'IV', subtitle: 'awards & honors', isAchievements: true },
   { id: 'contact', label: 'Contact', number: 'V', subtitle: 'get in touch', isContact: true },
 ];
 ---

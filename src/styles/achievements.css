@@ -1,0 +1,78 @@
+/* Clean two-column grid - no timeline elements */
+.achievements-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem 2rem;
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 1rem 0;
+}
+
+/* Individual achievement item */
+.achievement-item {
+    padding: 1rem 1.25rem;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    transition: border-color var(--transition-fast);
+    opacity: 0;
+    animation: fadeInItem 0.5s ease forwards;
+}
+
+.achievement-item:nth-child(1) {
+    animation-delay: 0.2s;
+}
+
+.achievement-item:nth-child(2) {
+    animation-delay: 0.3s;
+}
+
+.achievement-item:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+.achievement-item:nth-child(4) {
+    animation-delay: 0.5s;
+}
+
+@keyframes fadeInItem {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Subtle hover */
+.achievement-item:hover {
+    border-color: var(--color-text-subtle);
+}
+
+/* Title - emphasized */
+.achievement-title {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--color-text-primary);
+    line-height: 1.4;
+    margin-bottom: 0.3rem;
+    font-family: var(--font-sans);
+}
+
+/* Organization and year - muted, combined */
+.achievement-meta {
+    font-size: 0.8rem;
+    font-weight: 400;
+    color: var(--color-text-muted);
+    font-family: var(--font-sans);
+}
+
+/* Responsive - single column on mobile */
+@media (max-width: 600px) {
+    .achievements-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+}

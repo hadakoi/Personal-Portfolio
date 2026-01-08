@@ -1,0 +1,173 @@
+---
+import '../../styles/main.css';
+
+// Get all blog posts using import.meta.glob (Vite)
+const postFiles = import.meta.glob('../../content/blog/*.md', { eager: true });
+const posts = Object.entries(postFiles).map(([path, post]: [string, any]) => ({
+    ...post,
+    slug: path.split('/').pop()?.replace('.md', '')
+}));
+
+// Sort by date (newest first)
+const sortedPosts = posts.sort((a, b) => 
+    new Date(b.frontmatter.date).getTime() - new Date(a.frontmatter.date).getTime()
+);
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog | Aryan Kudva</title>
+    <meta name="description" content="Blog posts about technology, cybersecurity, and software development.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Mono:wght@400;500&family=Fira+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="blog-index">
+        <header class="blog-index-header">
+            <a href="/" class="blog-back">← Back to Portfolio</a>
+            <h1>Blog</h1>
+            <p class="blog-subtitle">Thoughts on technology, cybersecurity, and development</p>
+        </header>
+        
+        <main class="posts-list">
+            {sortedPosts.length === 0 ? (
+                <p class="no-posts">No posts yet. Check back soon!</p>
+            ) : (
+            sortedPosts.map(post => {
+                    return (
+                        <article class="post-card">
+                            <a href={`/blog/${post.slug}`} class="post-link">
+                                <h2 class="post-title">{post.frontmatter.title}</h2>
+                                <p class="post-description">{post.frontmatter.description}</p>
+                                <div class="post-meta">
+                                    <time datetime={post.frontmatter.date}>
+                                        {new Date(post.frontmatter.date).toLocaleDateString('en-US', { 
+                                            year: 'numeric', 
+                                            month: 'short', 
+                                            day: 'numeric' 
+                                        })}
+                                    </time>
+                                    {post.frontmatter.tags && (
+                                        <div class="post-tags">
+                                            {post.frontmatter.tags.map((tag: string) => (
+                                                <span class="post-tag">{tag}</span>
+                                            ))}
+                                        </div>
+                                    )}
+                                </div>
+                            </a>
+                        </article>
+                    );
+                })
+            )}
+        </main>
+    </div>
+</body>
+</html>
+
+<style>
+    .blog-index {
+        min-height: 100vh;
+        background: var(--color-bg);
+        color: var(--color-text-primary);
+        padding: 2rem;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+    
+    .blog-index-header {
+        margin-bottom: 3rem;
+        padding-bottom: 1.5rem;
+        border-bottom: 1px solid var(--color-border);
+    }
+    
+    .blog-back {
+        color: var(--color-text-secondary);
+        text-decoration: none;
+        font-size: 0.9rem;
+        display: inline-block;
+        margin-bottom: 1.5rem;
+        transition: color 0.2s ease;
+    }
+    
+    .blog-back:hover {
+        color: var(--color-text-primary);
+    }
+    
+    .blog-index-header h1 {
+        font-size: 2rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+    }
+    
+    .blog-subtitle {
+        color: var(--color-text-muted);
+        font-size: 1rem;
+    }
+    
+    .posts-list {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+    
+    .post-card {
+        border: 1px solid var(--color-border);
+        transition: border-color 0.2s ease;
+    }
+    
+    .post-card:hover {
+        border-color: var(--color-text-secondary);
+    }
+    
+    .post-link {
+        display: block;
+        padding: 1.5rem;
+        text-decoration: none;
+        color: inherit;
+    }
+    
+    .post-title {
+        font-size: 1.25rem;
+        font-weight: 500;
+        margin-bottom: 0.5rem;
+        color: var(--color-text-primary);
+    }
+    
+    .post-description {
+        color: var(--color-text-secondary);
+        font-size: 0.95rem;
+        line-height: 1.5;
+        margin-bottom: 0.75rem;
+    }
+    
+    .post-meta {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        color: var(--color-text-muted);
+        font-size: 0.8rem;
+    }
+    
+    .post-tags {
+        display: flex;
+        gap: 0.5rem;
+    }
+    
+    .post-tag {
+        padding: 0.15rem 0.4rem;
+        border: 1px solid var(--color-border);
+        font-family: var(--font-mono);
+        font-size: 0.7rem;
+    }
+    
+    .no-posts {
+        color: var(--color-text-muted);
+        text-align: center;
+        padding: 3rem;
+    }
+</style>

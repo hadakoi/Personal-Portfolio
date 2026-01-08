@@ -1,0 +1,235 @@
+.experience-ledger {
+    position: relative;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 1.5rem 0;
+}
+
+/* Vertical line running through ledger */
+.ledger-line {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: linear-gradient(to bottom,
+            transparent 0%,
+            var(--color-border) 10%,
+            var(--color-text-secondary) 50%,
+            var(--color-border) 90%,
+            transparent 100%);
+    transform: translateX(-50%);
+}
+
+/* Ledger entry container */
+.ledger-entry {
+    position: relative;
+    margin-bottom: 2rem;
+    opacity: 0;
+    animation: slideInLedger 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+.ledger-entry:nth-child(1) {
+    animation-delay: 0.4s;
+}
+
+.ledger-entry:nth-child(2) {
+    animation-delay: 0.55s;
+}
+
+.ledger-entry:nth-child(3) {
+    animation-delay: 0.7s;
+}
+
+.ledger-entry:nth-child(4) {
+    animation-delay: 0.85s;
+}
+
+.ledger-entry:last-child {
+    margin-bottom: 0;
+}
+
+@keyframes slideInLedger {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Ledger node (circle on the line) */
+.ledger-node {
+    position: absolute;
+    left: 50%;
+    top: 1.5rem;
+    width: 10px;
+    height: 10px;
+    background: var(--color-bg);
+    border: 2px solid var(--color-text-secondary);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    transition: all var(--transition-smooth);
+}
+
+.ledger-entry:hover .ledger-node {
+    width: 14px;
+    height: 14px;
+    border-color: var(--color-text-primary);
+    box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.1);
+}
+
+/* Card container */
+.ledger-card {
+    position: relative;
+    width: calc(50% - 2rem);
+    padding: 1rem 1.25rem;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    transition: all var(--transition-smooth);
+}
+
+/* Alternate left and right sides */
+.ledger-entry:nth-child(odd) .ledger-card {
+    margin-left: auto;
+    margin-right: 0;
+}
+
+.ledger-entry:nth-child(even) .ledger-card {
+    margin-left: 0;
+    margin-right: auto;
+}
+
+/* Hover effects */
+.ledger-card:hover {
+    border-color: var(--color-text-secondary);
+    background: rgba(255, 255, 255, 0.02);
+    transform: translateY(-2px);
+    box-shadow:
+        0 4px 16px rgba(0, 0, 0, 0.3),
+        0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+}
+
+/* Connecting line from node to card */
+.ledger-card::before {
+    content: '';
+    position: absolute;
+    top: 1.5rem;
+    width: 1.5rem;
+    height: 1px;
+    background: var(--color-border);
+    transition: background-color var(--transition-fast);
+}
+
+.ledger-entry:nth-child(odd) .ledger-card::before {
+    left: -1.5rem;
+}
+
+.ledger-entry:nth-child(even) .ledger-card::before {
+    right: -1.5rem;
+}
+
+.ledger-card:hover::before {
+    background: var(--color-text-secondary);
+}
+
+/* Content - consistent text alignment (NOT mirrored) */
+.ledger-content {
+    text-align: left;
+    /* Always left-aligned */
+}
+
+/* Role and Organization */
+.ledger-role {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--color-text-primary);
+    line-height: 1.4;
+    margin-bottom: 0.35rem;
+    font-family: var(--font-sans);
+}
+
+.ledger-org {
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    border-bottom: 1px solid var(--color-border);
+    transition: all var(--transition-fast);
+}
+
+.ledger-org:hover {
+    color: var(--color-text-primary);
+    border-bottom-color: var(--color-text-primary);
+}
+
+/* Dates */
+.ledger-dates {
+    font-size: 0.8rem;
+    font-weight: 400;
+    color: var(--color-text-muted);
+    font-family: var(--font-sans);
+}
+
+/* Decorative corner accents */
+.ledger-card::after {
+    content: '';
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    border: 1px solid var(--color-border);
+    opacity: 0.5;
+    transition: all var(--transition-smooth);
+}
+
+.ledger-entry:nth-child(odd) .ledger-card::after {
+    top: 0;
+    right: 0;
+    border-left: none;
+    border-bottom: none;
+}
+
+.ledger-entry:nth-child(even) .ledger-card::after {
+    top: 0;
+    left: 0;
+    border-right: none;
+    border-bottom: none;
+}
+
+.ledger-card:hover::after {
+    opacity: 1;
+    border-color: var(--color-text-secondary);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .ledger-line {
+        left: 1.5rem;
+    }
+
+    .ledger-node {
+        left: 1.5rem;
+    }
+
+    .ledger-card {
+        width: calc(100% - 4rem);
+        margin-left: 4rem !important;
+        margin-right: 0 !important;
+    }
+
+    .ledger-card::before {
+        left: -2.5rem !important;
+        right: auto !important;
+        width: 2rem;
+    }
+
+    .ledger-entry:nth-child(even) .ledger-card::after {
+        left: auto;
+        right: 0;
+        border-left: none;
+        border-right: none;
+        border-bottom: none;
+    }
+}

@@ -80,3 +80,38 @@
 .contact-item:hover span::after {
     width: 100%;
 }
+
+/* Resume & Blog Links */
+.contact-links {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--color-border);
+    width: 100%;
+}
+
+.contact-link-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1.2rem;
+    color: var(--color-text-secondary);
+    background: transparent;
+    border: 1px solid var(--color-border);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-family: var(--font-sans);
+    transition: all 0.2s ease;
+}
+
+.contact-link-btn:hover {
+    color: var(--color-text-primary);
+    border-color: var(--color-text-secondary);
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.contact-link-btn svg {
+    flex-shrink: 0;
+}

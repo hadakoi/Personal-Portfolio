@@ -1,0 +1,174 @@
+---
+import '../styles/main.css';
+
+interface Props {
+    title: string;
+    description: string;
+    date: string;
+    tags?: string[];
+}
+
+const { title, description, date, tags } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{title} | Aryan Kudva</title>
+    <meta name="description" content={description}>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Mono:wght@400;500&family=Fira+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="blog-layout">
+        <header class="blog-header">
+            <a href="/" class="blog-back">← Back to Portfolio</a>
+        </header>
+        
+        <article class="blog-article">
+            <header class="article-header">
+                <h1 class="article-title">{title}</h1>
+                <div class="article-meta">
+                    <time datetime={date}>{new Date(date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</time>
+                    {tags && tags.length > 0 && (
+                        <div class="article-tags">
+                            {tags.map(tag => <span class="article-tag">{tag}</span>)}
+                        </div>
+                    )}
+                </div>
+            </header>
+            
+            <div class="article-content">
+                <slot />
+            </div>
+        </article>
+        
+        <footer class="blog-footer">
+            <a href="/blog">← All Posts</a>
+        </footer>
+    </div>
+</body>
+</html>
+
+<style>
+    .blog-layout {
+        min-height: 100vh;
+        background: var(--color-bg);
+        color: var(--color-text-primary);
+        padding: 2rem;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+    
+    .blog-header {
+        margin-bottom: 3rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid var(--color-border);
+    }
+    
+    .blog-back {
+        color: var(--color-text-secondary);
+        text-decoration: none;
+        font-size: 0.9rem;
+        transition: color 0.2s ease;
+    }
+    
+    .blog-back:hover {
+        color: var(--color-text-primary);
+    }
+    
+    .article-header {
+        margin-bottom: 2rem;
+    }
+    
+    .article-title {
+        font-size: 2rem;
+        font-weight: 600;
+        margin-bottom: 0.75rem;
+        line-height: 1.3;
+    }
+    
+    .article-meta {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        color: var(--color-text-muted);
+        font-size: 0.85rem;
+    }
+    
+    .article-tags {
+        display: flex;
+        gap: 0.5rem;
+    }
+    
+    .article-tag {
+        padding: 0.2rem 0.5rem;
+        border: 1px solid var(--color-border);
+        font-size: 0.75rem;
+        font-family: var(--font-mono);
+    }
+    
+    .article-content {
+        line-height: 1.8;
+        font-size: 1rem;
+    }
+    
+    .article-content :global(h2) {
+        font-size: 1.5rem;
+        margin-top: 2rem;
+        margin-bottom: 1rem;
+    }
+    
+    .article-content :global(h3) {
+        font-size: 1.25rem;
+        margin-top: 1.5rem;
+        margin-bottom: 0.75rem;
+    }
+    
+    .article-content :global(p) {
+        margin-bottom: 1.25rem;
+    }
+    
+    .article-content :global(code) {
+        font-family: var(--font-mono);
+        background: rgba(255, 255, 255, 0.05);
+        padding: 0.1rem 0.3rem;
+        font-size: 0.9em;
+    }
+    
+    .article-content :global(pre) {
+        background: rgba(255, 255, 255, 0.03);
+        padding: 1rem;
+        overflow-x: auto;
+        margin-bottom: 1.25rem;
+        border: 1px solid var(--color-border);
+    }
+    
+    .article-content :global(a) {
+        color: var(--color-text-secondary);
+        text-decoration: underline;
+    }
+    
+    .article-content :global(a:hover) {
+        color: var(--color-text-primary);
+    }
+    
+    .blog-footer {
+        margin-top: 3rem;
+        padding-top: 1rem;
+        border-top: 1px solid var(--color-border);
+    }
+    
+    .blog-footer a {
+        color: var(--color-text-secondary);
+        text-decoration: none;
+        font-size: 0.9rem;
+    }
+    
+    .blog-footer a:hover {
+        color: var(--color-text-primary);
+    }
+</style>
