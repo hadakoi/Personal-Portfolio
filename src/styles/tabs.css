@@ -41,9 +41,10 @@
 
 .tab-label-vertical {
     position: absolute;
-    bottom: 5rem;
+    bottom: 1rem;
     left: 50%;
-    transform: translateX(-50%) rotate(-90deg);
+    transform-origin: left center;
+    transform: rotate(-90deg);
     white-space: nowrap;
     font-size: 0.9rem;
     font-weight: 500;

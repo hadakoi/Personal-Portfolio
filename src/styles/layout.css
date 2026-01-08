@@ -31,14 +31,37 @@
 }
 
 .intro-section h2 {
-    font-size: 1.2rem;
+    font-size: 1.5rem;
     margin-bottom: var(--spacing-sm);
+    margin-left: 0px;
+    padding-left: 0;
+}
+
+.intro-text {
+    border-left: 1px solid #555;
+    padding-left: var(--spacing-md);
+    margin-left: 1px;
+    /* Slight offset for visual balance */
 }
 
 .intro-text p {
     margin-bottom: var(--spacing-sm);
     font-size: 0.95rem;
     max-width: 90%;
+    line-height: 1.47;
+    /* Reduced by ~8% from default 1.6 */
+}
+
+/* Inline Highlight Tokens */
+.subtle-highlight {
+    font-weight: 500;
+    border-bottom: 1px solid var(--color-border-hover);
+}
+
+.neon-highlight {
+    color: #ffffff;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.6), 0 0 20px rgba(255, 255, 255, 0.2);
+    font-weight: 500;
 }
 
 .bottom-section {
