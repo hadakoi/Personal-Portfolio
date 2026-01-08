@@ -47,6 +47,7 @@
 
 html {
     height: 100%;
+    font-size: 115%;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-size-adjust: 100%;
@@ -323,6 +324,10 @@ p {
     color: var(--color-text-secondary);
 }
 
+.tab.active .tab-number {
+    display: none;
+}
+
 
 .tab-content {
     width: 100%;
@@ -352,67 +357,84 @@ p {
 
 
 
-.contact-list {
+.contact-layout {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-lg);
+    justify-content: center;
+}
+
+.contact-pfp img {
+    border-radius: 50%;
+    opacity: 0.8;
+}
+
+.contact-container {
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-sm);
+    gap: var(--spacing-xs);
+    align-items: center;
+}
+
+.contact-container h2 {
+    text-align: center;
+    margin-bottom: 0;
+    font-size: 1.5rem;
+}
+
+.contact-subtitle.tab-subtitle {
+    text-align: center;
+    margin-bottom: var(--spacing-sm);
+}
+
+.contact-row {
+    display: flex;
+    justify-content: center;
+    gap: var(--spacing-lg);
+    flex-wrap: wrap;
+    width: 100%;
 }
 
 .contact-item {
     display: flex;
     align-items: center;
     gap: var(--spacing-sm);
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    transition: color 0.2s ease;
+    cursor: pointer;
+}
+
+.contact-item:hover {
+    color: var(--color-text-primary);
 }
 
 .contact-icon {
     width: 1.2rem;
     height: 1.2rem;
-    color: var(--color-text-primary);
-    opacity: 1;
     flex-shrink: 0;
-    margin-right: var(--spacing-sm);
 }
 
-.contact-label {
+.contact-item span {
     font-size: 0.9rem;
-    color: var(--color-text-muted);
     letter-spacing: 0.04em;
     text-transform: lowercase;
-    min-width: 6rem;
-    display: flex;
-    align-items: center;
-}
-
-.contact-value {
-    font-size: 0.9rem;
-    color: var(--color-text-secondary);
-    text-decoration: none;
     position: relative;
-    transition: color 0.2s ease;
 }
 
-.contact-value::after {
+.contact-item span::after {
     content: '';
     position: absolute;
     width: 0;
     height: 1px;
     bottom: -1px;
     left: 0;
-    background-color: var(--color-text-secondary);
+    background-color: var(--color-text-primary);
     transition: width 0.25s ease;
 }
 
-.contact-value:hover {
-    color: var(--color-text-primary);
-}
-
-.contact-value:hover::after {
+.contact-item:hover span::after {
     width: 100%;
-}
-
-.contact-value:focus-visible {
-    outline: 2px solid var(--color-text-primary);
-    outline-offset: 2px;
 }
 
 
@@ -461,6 +483,12 @@ p {
         --panel-width: 45%;
         --min-panel-width: 350px;
         --tab-width: 50px;
+    }
+
+    .contact-layout {
+        flex-direction: column;
+        text-align: center;
+        align-items: center;
     }
 
     h1 {
