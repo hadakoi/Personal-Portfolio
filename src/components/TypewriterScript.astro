@@ -1,0 +1,101 @@
+---
+interface Quote {
+  text: string;
+  author: string;
+}
+
+interface Props {
+  quotes: Quote[];
+}
+
+const { quotes } = Astro.props;
+---
+
+<script define:vars={{ quotes }}>
+  const TYPING_SPEED = 80;
+  const DELETING_SPEED = 40;
+  const DISPLAY_DURATION = 15000;
+  const PAUSE_BEFORE_DELETE = 500;
+
+  let quoteIndex = Math.floor(Math.random() * quotes.length);
+  let charIndex = 0;
+  let authorCharIndex = 0;
+  let isDeleting = false;
+  let isWaiting = false;
+  let typingStage = 'text';
+
+  const textElement = document.getElementById('typewriter-text');
+  const authorElement = document.getElementById('typewriter-author');
+  const cursorText = document.getElementById('cursor-text');
+  const cursorAuthor = document.getElementById('cursor-author');
+
+  function showTextCursor() {
+    if (cursorText) cursorText.style.display = 'inline-block';
+    if (cursorAuthor) cursorAuthor.style.display = 'none';
+  }
+
+  function showAuthorCursor() {
+    if (cursorText) cursorText.style.display = 'none';
+    if (cursorAuthor) cursorAuthor.style.display = 'inline-block';
+  }
+
+  showTextCursor();
+
+  function type() {
+    const currentQuote = quotes[quoteIndex];
+    const fullAuthorText = `— ${currentQuote.author}`;
+    
+    if (isWaiting) return;
+
+    if (!isDeleting) {
+      if (typingStage === 'text') {
+        showTextCursor();
+        if (charIndex < currentQuote.text.length) {
+          textElement.textContent = currentQuote.text.substring(0, charIndex + 1);
+          charIndex++;
+          setTimeout(type, TYPING_SPEED);
+        } else {
+          typingStage = 'author';
+          showAuthorCursor();
+          setTimeout(type, PAUSE_BEFORE_DELETE);
+        }
+      } else if (typingStage === 'author') {
+        showAuthorCursor();
+        if (authorCharIndex < fullAuthorText.length) {
+          authorElement.textContent = fullAuthorText.substring(0, authorCharIndex + 1);
+          authorCharIndex++;
+          setTimeout(type, TYPING_SPEED);
+        } else {
+          isWaiting = true;
+          setTimeout(() => {
+            isWaiting = false;
+            isDeleting = true;
+            setTimeout(type, PAUSE_BEFORE_DELETE);
+          }, DISPLAY_DURATION);
+        }
+      }
+    } else {
+      if (authorCharIndex > 0) {
+        showAuthorCursor();
+        authorElement.textContent = fullAuthorText.substring(0, authorCharIndex - 1);
+        authorCharIndex--;
+        setTimeout(type, DELETING_SPEED);
+      } else if (charIndex > 0) {
+        showTextCursor();
+        textElement.textContent = currentQuote.text.substring(0, charIndex - 1);
+        charIndex--;
+        setTimeout(type, DELETING_SPEED);
+      } else {
+        isDeleting = false;
+        typingStage = 'text';
+        showTextCursor();
+        quoteIndex = Math.floor(Math.random() * quotes.length);
+        setTimeout(type, 500);
+      }
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(type, 500);
+  });
+</script>

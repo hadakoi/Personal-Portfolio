@@ -1,0 +1,124 @@
+.tab {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: var(--tab-width);
+    border-left: 1px solid var(--color-border);
+    background: var(--color-bg);
+    cursor: pointer;
+    outline: none;
+    overflow: hidden;
+    transition:
+        width var(--transition-slow),
+        flex var(--transition-slow),
+        background-color var(--transition-fast);
+}
+
+.tab:hover {
+    background-color: var(--color-surface-hover);
+}
+
+.tab:active {
+    background-color: var(--color-surface-active);
+}
+
+.tab:focus-visible {
+    z-index: 10;
+    box-shadow: inset 0 0 0 2px var(--color-text-primary);
+}
+
+.tab.active {
+    flex: 1;
+    width: auto;
+    cursor: default;
+}
+
+.tab.active:hover {
+    background-color: transparent;
+}
+
+
+.tab-label-vertical {
+    position: absolute;
+    bottom: 5rem;
+    left: 50%;
+    transform: translateX(-50%) rotate(-90deg);
+    white-space: nowrap;
+    font-size: 0.9rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    color: var(--color-text-subtle);
+    text-transform: uppercase;
+    pointer-events: none;
+    transition:
+        opacity var(--transition-fast),
+        color var(--transition-fast);
+}
+
+.tab:hover .tab-label-vertical {
+    color: var(--color-text-secondary);
+}
+
+.tab.active .tab-label-vertical {
+    opacity: 0;
+}
+
+
+.tab-number {
+    position: absolute;
+    top: var(--spacing-md);
+    font-size: 0.8rem;
+    font-weight: 500;
+    font-family: var(--font-mono);
+    color: var(--color-text-subtle);
+    transition: color var(--transition-fast);
+}
+
+.tab:hover .tab-number {
+    color: var(--color-text-secondary);
+}
+
+.tab.active .tab-number {
+    display: none;
+}
+
+
+@keyframes fadeInSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.tab-content {
+    width: 100%;
+    height: 100%;
+    padding: var(--spacing-2xl);
+    overflow-y: auto;
+    opacity: 0;
+    display: none;
+}
+
+.tab.active .tab-content {
+    display: block;
+    animation: fadeInSlideUp 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+    animation-delay: 0.3s;
+    /* Wait for tab expansion to stabilize */
+}
+
+.tab-subtitle {
+    color: var(--color-text-muted);
+    font-size: 1rem;
+    margin-bottom: var(--spacing-lg);
+}
+
+.coming-soon {
+    color: var(--color-text-muted);
+    font-style: italic;
+}

@@ -1,0 +1,47 @@
+---
+interface Props {
+  name: string;
+  subtitle: string;
+  asciiArt: string;
+  currentYear: number;
+}
+
+const { name, subtitle, asciiArt, currentYear } = Astro.props;
+---
+
+<main class="left-panel" id="main-content">
+    <div class="left-panel-content">
+        <header>
+            <h1>{name}</h1>
+            <p class="subtitle">{subtitle}</p>
+        </header>
+
+        <section class="intro-section" aria-labelledby="intro-heading">
+            <h2 id="intro-heading">Hello World!</h2>
+            <div class="intro-text">
+                <p>I'm a 3rd year undergraduate Computer Science and Engineering student focused on building and understanding systems.</p>
+                <p>Interested in Linux, cybersecurity, and low-level software, with an emphasis on learning by doing.</p>
+                <p>Currently a researcher at the MIT Center for Advanced Scientific & Industrial Research, and serve as Treasurer and Technical Director for PRISM.</p>
+                <p>Actively seeking Summer 2026 internships while continuing to refine my craft.</p>
+            </div>
+        </section>
+    </div>
+
+    <div class="bottom-section">
+        <pre class="ascii-art" aria-hidden="true">{asciiArt}</pre>
+        <figure class="quote-box">
+            <div class="typewriter-container">
+                <blockquote class="quote">
+                    <span class="typewriter-text" id="typewriter-text"></span><span class="typewriter-cursor" id="cursor-text"></span>
+                </blockquote>
+                <figcaption class="quote-author">
+                    <span id="typewriter-author"></span><span class="typewriter-cursor" id="cursor-author"></span>
+                </figcaption>
+            </div>
+        </figure>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; {currentYear} {name}</p>
+    </footer>
+</main>

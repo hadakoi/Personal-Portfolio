@@ -1,0 +1,46 @@
+@media print {
+
+    .skip-link,
+    .ascii-art {
+        display: none !important;
+    }
+
+    .container {
+        display: block;
+    }
+
+    .left-panel,
+    .right-panel {
+        width: 100%;
+        max-height: none;
+        border: none;
+        padding: 1rem;
+    }
+
+    .tab {
+        display: block;
+        width: 100%;
+        height: auto;
+        border: 1px solid #ccc;
+        margin-bottom: 1rem;
+        page-break-inside: avoid;
+    }
+
+    .tab-label-vertical {
+        display: none;
+    }
+
+    .tab-content {
+        display: block;
+        opacity: 1;
+        padding: 1rem;
+    }
+
+    a {
+        text-decoration: underline;
+    }
+
+    a[href^="mailto:"]::after {
+        content: " (" attr(href) ")";
+    }
+}

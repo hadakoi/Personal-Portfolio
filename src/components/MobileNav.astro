@@ -1,0 +1,52 @@
+---
+interface Tab {
+  id: string;
+  label: string;
+  number: string;
+}
+
+interface Props {
+  tabs: Tab[];
+}
+
+const { tabs } = Astro.props;
+---
+
+<!-- Mobile Hamburger Button -->
+<button class="hamburger" id="hamburger-btn" aria-label="Open navigation menu" aria-expanded="false" aria-controls="nav-drawer">
+    <span class="hamburger-line"></span>
+    <span class="hamburger-line"></span>
+    <span class="hamburger-line"></span>
+</button>
+
+<!-- Mobile Navigation Drawer -->
+<div class="nav-drawer" id="nav-drawer" aria-hidden="true">
+    <div class="drawer-header">
+        <span class="drawer-title">Navigation</span>
+        <button class="drawer-close" id="drawer-close" aria-label="Close navigation menu">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+    </div>
+    <nav class="drawer-nav" role="navigation" aria-label="Mobile navigation">
+        {tabs.map((tab) => (
+            <button class="drawer-nav-item" data-section={tab.id}>
+                <span class="drawer-nav-number">{tab.number}</span>
+                <span class="drawer-nav-label">{tab.label}</span>
+            </button>
+        ))}
+    </nav>
+</div>
+<div class="drawer-overlay" id="drawer-overlay"></div>
+
+<!-- Mobile Section View (hidden by default) -->
+<div class="mobile-section-view" id="mobile-section-view" aria-hidden="true">
+    <header class="mobile-section-header">
+        <button class="back-button" id="back-button" aria-label="Back to home">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+            <span>Back</span>
+        </button>
+    </header>
+    <div class="mobile-section-content" id="mobile-section-content">
+        <!-- Content injected dynamically -->
+    </div>
+</div>

@@ -3,15 +3,21 @@ import '../styles/main.css';
 import fs from 'node:fs';
 import path from 'node:path';
 
+import Head from '../components/Head.astro';
+import LeftPanel from '../components/LeftPanel.astro';
+import TabPanel from '../components/TabPanel.astro';
+import MobileNav from '../components/MobileNav.astro';
+import TypewriterScript from '../components/TypewriterScript.astro';
+import InteractivityScript from '../components/InteractivityScript.astro';
+
+// Data
 const currentYear = new Date().getFullYear();
-
-
 const quotesPath = path.join(process.cwd(), 'src/data/quotes.jsonl');
 const quotesRaw = fs.readFileSync(quotesPath, 'utf-8');
 const quotes = quotesRaw.trim().split('\n').map(line => JSON.parse(line));
+
+// Config
 const siteUrl = 'https://hadakoi.tech';
-
-
 const seo = {
   title: 'Aryan Kudva',
   author: 'Aryan Kudva',
@@ -53,7 +59,6 @@ const ASCII_ART = `
         / = (_  \\  "==\\
        ;="=   \\_)  =="\\`;
 
-
 const tabs = [
   { id: 'projects', label: 'Projects', number: 'I', subtitle: 'selected works', content: 'coming soon...' },
   { id: 'experience', label: 'Experience', number: 'II', subtitle: 'work history', content: 'coming soon...' },
@@ -66,436 +71,25 @@ const tabs = [
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-
-    <title>{seo.title}</title>
-    <meta name="title" content={seo.title}>
-    <meta name="description" content={seo.description}>
-    <meta name="author" content={seo.author}>
-    <meta name="robots" content="index, follow">
-
-
-    <meta property="og:type" content="website">
-    <meta property="og:url" content={siteUrl}>
-    <meta property="og:title" content={seo.title}>
-    <meta property="og:description" content={seo.description}>
-    <meta property="og:site_name" content="Aryan Kudva">
-
-
-    <meta name="twitter:card" content="summary">
-    <meta name="twitter:url" content={siteUrl}>
-    <meta name="twitter:title" content={seo.title}>
-    <meta name="twitter:description" content={seo.description}>
-
-
-    <link rel="canonical" href={siteUrl}>
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@300;400;500;700&family=Fira+Mono:wght@400;500&display=swap" rel="stylesheet">
-
-
-    <meta name="theme-color" content="#050505">
-    <meta name="color-scheme" content="dark">
-    <link rel="icon" type="image/svg+xml" href="/cat.svg">
-</head>
+<Head title={seo.title} author={seo.author} siteUrl={siteUrl} />
 
 <body>
-
     <a href="#main-content" class="skip-link">Skip to main content</a>
 
-    <!-- Mobile Hamburger Button -->
-    <button class="hamburger" id="hamburger-btn" aria-label="Open navigation menu" aria-expanded="false" aria-controls="nav-drawer">
-        <span class="hamburger-line"></span>
-        <span class="hamburger-line"></span>
-        <span class="hamburger-line"></span>
-    </button>
-
-    <!-- Mobile Navigation Drawer -->
-    <div class="nav-drawer" id="nav-drawer" aria-hidden="true">
-        <div class="drawer-header">
-            <span class="drawer-title">Navigation</span>
-            <button class="drawer-close" id="drawer-close" aria-label="Close navigation menu">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-            </button>
-        </div>
-        <nav class="drawer-nav" role="navigation" aria-label="Mobile navigation">
-            {tabs.map((tab) => (
-                <button class="drawer-nav-item" data-section={tab.id}>
-                    <span class="drawer-nav-number">{tab.number}</span>
-                    <span class="drawer-nav-label">{tab.label}</span>
-                </button>
-            ))}
-        </nav>
-    </div>
-    <div class="drawer-overlay" id="drawer-overlay"></div>
-
-    <!-- Mobile Section View (hidden by default) -->
-    <div class="mobile-section-view" id="mobile-section-view" aria-hidden="true">
-        <header class="mobile-section-header">
-            <button class="back-button" id="back-button" aria-label="Back to home">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
-                <span>Back</span>
-            </button>
-        </header>
-        <div class="mobile-section-content" id="mobile-section-content">
-            <!-- Content injected dynamically -->
-        </div>
-    </div>
+    <MobileNav tabs={tabs} />
 
     <div class="container">
-
-        <main class="left-panel" id="main-content">
-            <div class="left-panel-content">
-                <header>
-                    <h1>Aryan Kudva</h1>
-                    <p class="subtitle">Breaking systems, rebuilding them better</p>
-                </header>
-
-                <section class="intro-section" aria-labelledby="intro-heading">
-                    <h2 id="intro-heading">Hello World!</h2>
-                    <div class="intro-text">
-                        <p>I’m a 3rd year undergraduate Computer Science and Engineering student focused on building and understanding systems.</p>
-                        <p>Interested in Linux, cybersecurity, and low-level software, with an emphasis on learning by doing.</p>
-                        <p>Currently a researcher at the MIT Center for Advanced Scientific & Industrial Research, and serve as Treasurer and Technical Director for PRISM.</p>
-                        <p>Actively seeking Summer 2026 internships while continuing to refine my craft.</p>
-                    </div>
-                </section>
-            </div>
-
-            <div class="bottom-section">
-                <pre class="ascii-art" aria-hidden="true">{ASCII_ART}</pre>
-                <figure class="quote-box">
-                    <div class="typewriter-container">
-                        <blockquote class="quote">
-                            <span class="typewriter-text" id="typewriter-text"></span><span class="typewriter-cursor" id="cursor-text"></span>
-                        </blockquote>
-                        <figcaption class="quote-author">
-                            <span id="typewriter-author"></span><span class="typewriter-cursor" id="cursor-author"></span>
-                        </figcaption>
-                    </div>
-                </figure>
-            </div>
-
-            <footer class="footer">
-                <p>&copy; {currentYear} Aryan Kudva</p>
-            </footer>
-        </main>
-
-
-        <nav
-            class="right-panel"
-            role="tablist"
-            aria-label="Portfolio sections"
-        >
-            {tabs.map((tab, index) => (
-                <div
-                    class="tab"
-                    role="tab"
-                    id={`tab-${tab.id}`}
-                    aria-selected="false"
-                    aria-controls={`panel-${tab.id}`}
-                    tabindex="-1"
-                >
-                    <span class="tab-label-vertical">{tab.label.toUpperCase()}</span>
-                    <span class="tab-number">{tab.number}</span>
-
-                    <div
-                        class="tab-content"
-                        role="tabpanel"
-                        id={`panel-${tab.id}`}
-                        aria-labelledby={`tab-${tab.id}`}
-                    >
-                        {!tab.isContact && <h2>{tab.label}</h2>}
-                        {!tab.isContact && <p class="tab-subtitle">{tab.subtitle}</p>}
-                        {tab.isContact ? (
-                            <div class="contact-layout">
-                                <div class="contact-pfp">
-                                    <img src="/pfp.png" alt="Profile Picture" width="120" height="120" />
-                                </div>
-                                <div class="contact-container">
-                                    <h2 class="contact-title">{tab.label}</h2>
-                                    <p class="tab-subtitle contact-subtitle">Feel free to contact me for anything~</p>
-                                    <div class="contact-row">
-                                        <a href="https://discordapp.com/users/hadakoi" class="contact-item" target="_blank" rel="noopener">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" class="contact-icon"><path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.419-2.1568 2.419zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.419-2.1568 2.419z"/></svg>
-                                            <span>@hadakoi</span>
-                                        </a>
-                                        <a href="https://github.com/hadakoi" class="contact-item" target="_blank" rel="noopener">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="contact-icon"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
-                                            <span>hadakoi</span>
-                                        </a>
-                                        <a href="https://linkedin.com/in/aryan-kudva" class="contact-item" target="_blank" rel="noopener">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="contact-icon"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
-                                            <span>aryan-kudva</span>
-                                        </a>
-                                    </div>
-                                    <div class="contact-row">
-                                        <a href="mailto:aryankudva23@gmail.com" class="contact-item">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="contact-icon"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
-                                            <span>aryankudva23@gmail.com</span>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        ) : (
-                            <p class="coming-soon">{tab.content}</p>
-                        )}
-                    </div>
-                </div>
-            ))}
-        </nav>
+        <LeftPanel 
+            name={seo.author} 
+            subtitle="Breaking systems, rebuilding them better" 
+            asciiArt={ASCII_ART} 
+            currentYear={currentYear} 
+        />
+        <TabPanel tabs={tabs} />
     </div>
 
-    <script define:vars={{ quotes }}>
-
-      const TYPING_SPEED = 80;
-      const DELETING_SPEED = 40;
-      const DISPLAY_DURATION = 15000;
-      const PAUSE_BEFORE_DELETE = 500;
-
-      let quoteIndex = Math.floor(Math.random() * quotes.length);
-      let charIndex = 0;
-      let authorCharIndex = 0;
-      let isDeleting = false;
-      let isWaiting = false;
-      let typingStage = 'text'; // 'text' or 'author'
-
-      const textElement = document.getElementById('typewriter-text');
-      const authorElement = document.getElementById('typewriter-author');
-      const cursorText = document.getElementById('cursor-text');
-      const cursorAuthor = document.getElementById('cursor-author');
-
-
-      function showTextCursor() {
-        if (cursorText) cursorText.style.display = 'inline-block';
-        if (cursorAuthor) cursorAuthor.style.display = 'none';
-      }
-
-      function showAuthorCursor() {
-        if (cursorText) cursorText.style.display = 'none';
-        if (cursorAuthor) cursorAuthor.style.display = 'inline-block';
-      }
-
-
-      showTextCursor();
-
-      function type() {
-        const currentQuote = quotes[quoteIndex];
-        const fullAuthorText = `— ${currentQuote.author}`;
-        
-        if (isWaiting) return;
-
-        if (!isDeleting) {
-          if (typingStage === 'text') {
-            showTextCursor();
-            if (charIndex < currentQuote.text.length) {
-              textElement.textContent = currentQuote.text.substring(0, charIndex + 1);
-              charIndex++;
-              setTimeout(type, TYPING_SPEED);
-            } else {
-              typingStage = 'author';
-              showAuthorCursor();
-              setTimeout(type, PAUSE_BEFORE_DELETE);
-            }
-          } else if (typingStage === 'author') {
-            showAuthorCursor();
-            if (authorCharIndex < fullAuthorText.length) {
-              authorElement.textContent = fullAuthorText.substring(0, authorCharIndex + 1);
-              authorCharIndex++;
-              setTimeout(type, TYPING_SPEED);
-            } else {
-              isWaiting = true;
-              setTimeout(() => {
-                isWaiting = false;
-                isDeleting = true;
-                setTimeout(type, PAUSE_BEFORE_DELETE);
-              }, DISPLAY_DURATION);
-            }
-          }
-        } else {
-          // Delete both author and text
-          if (authorCharIndex > 0) {
-            showAuthorCursor();
-            authorElement.textContent = fullAuthorText.substring(0, authorCharIndex - 1);
-            authorCharIndex--;
-            setTimeout(type, DELETING_SPEED);
-          } else if (charIndex > 0) {
-            showTextCursor();
-            textElement.textContent = currentQuote.text.substring(0, charIndex - 1);
-            charIndex--;
-            setTimeout(type, DELETING_SPEED);
-          } else {
-            isDeleting = false;
-            typingStage = 'text';
-            showTextCursor();
-            // Randomized selection
-            quoteIndex = Math.floor(Math.random() * quotes.length);
-            setTimeout(type, 500);
-          }
-        }
-      }
-
-      document.addEventListener('DOMContentLoaded', () => {
-
-        setTimeout(type, 500);
-
-        // Desktop tab functionality
-        const tablist = document.querySelector('[role="tablist"]');
-        const tabs = Array.from(document.querySelectorAll('[role="tab"]'));
-
-        function toggleTab(tab) {
-          const isCurrentlyActive = tab.classList.contains('active');
-          
-          tabs.forEach(t => {
-            t.classList.remove('active');
-            t.setAttribute('aria-selected', 'false');
-            t.setAttribute('tabindex', '-1');
-          });
-
-          if (!isCurrentlyActive) {
-            tab.classList.add('active');
-            tab.setAttribute('aria-selected', 'true');
-            tab.setAttribute('tabindex', '0');
-          }
-        }
-
-        tabs.forEach(tab => {
-          tab.addEventListener('click', () => toggleTab(tab));
-        });
-
-        tablist?.addEventListener('keydown', (e) => {
-          const currentIndex = tabs.findIndex(t => t === document.activeElement);
-          let newIndex = currentIndex;
-
-          switch (e.key) {
-            case 'ArrowRight':
-            case 'ArrowDown':
-              e.preventDefault();
-              newIndex = (currentIndex + 1) % tabs.length;
-              break;
-            case 'ArrowLeft':
-            case 'ArrowUp':
-              e.preventDefault();
-              newIndex = (currentIndex - 1 + tabs.length) % tabs.length;
-              break;
-            case 'Home':
-              e.preventDefault();
-              newIndex = 0;
-              break;
-            case 'End':
-              e.preventDefault();
-              newIndex = tabs.length - 1;
-              break;
-            case 'Enter':
-            case ' ':
-              e.preventDefault();
-              toggleTab(tabs[currentIndex]);
-              return;
-            default:
-              return;
-          }
-
-          tabs[newIndex].focus();
-        });
-
-        // Mobile navigation functionality
-        const hamburgerBtn = document.getElementById('hamburger-btn');
-        const drawerCloseBtn = document.getElementById('drawer-close');
-        const navDrawer = document.getElementById('nav-drawer');
-        const drawerOverlay = document.getElementById('drawer-overlay');
-        const drawerNavItems = document.querySelectorAll('.drawer-nav-item');
-        const mobileSectionView = document.getElementById('mobile-section-view');
-        const mobileSectionContent = document.getElementById('mobile-section-content');
-        const backButton = document.getElementById('back-button');
-        const mainContainer = document.querySelector('.container');
-        const onekoEl = document.getElementById('oneko');
-
-        function isMobileView() {
-          return window.innerWidth <= 768;
-        }
-
-        function hideOneko() {
-          if (onekoEl && isMobileView()) {
-            onekoEl.style.display = 'none';
-          }
-        }
-
-        function showOneko() {
-          if (onekoEl && isMobileView()) {
-            onekoEl.style.display = '';
-          }
-        }
-
-        function openDrawer() {
-          navDrawer.classList.add('open');
-          drawerOverlay.classList.add('open');
-          hamburgerBtn.setAttribute('aria-expanded', 'true');
-          navDrawer.setAttribute('aria-hidden', 'false');
-          document.body.style.overflow = 'hidden';
-          hideOneko();
-        }
-
-        function closeDrawer() {
-          navDrawer.classList.remove('open');
-          drawerOverlay.classList.remove('open');
-          hamburgerBtn.setAttribute('aria-expanded', 'false');
-          navDrawer.setAttribute('aria-hidden', 'true');
-          document.body.style.overflow = '';
-          if (!mobileSectionView.classList.contains('active')) {
-            showOneko();
-          }
-        }
-
-        function showMobileSection(sectionId) {
-          const tabPanel = document.getElementById(`panel-${sectionId}`);
-          if (tabPanel) {
-            mobileSectionContent.innerHTML = tabPanel.innerHTML;
-            mobileSectionView.classList.add('active');
-            mobileSectionView.setAttribute('aria-hidden', 'false');
-            mainContainer.style.display = 'none';
-            hamburgerBtn.style.display = 'none';
-            hideOneko();
-          }
-          closeDrawer();
-        }
-
-        function hideMobileSection() {
-          mobileSectionView.classList.remove('active');
-          mobileSectionView.setAttribute('aria-hidden', 'true');
-          mainContainer.style.display = '';
-          hamburgerBtn.style.display = '';
-          mobileSectionContent.innerHTML = '';
-          showOneko();
-        }
-
-        hamburgerBtn?.addEventListener('click', openDrawer);
-        drawerCloseBtn?.addEventListener('click', closeDrawer);
-        drawerOverlay?.addEventListener('click', closeDrawer);
-        backButton?.addEventListener('click', hideMobileSection);
-
-        drawerNavItems.forEach(item => {
-          item.addEventListener('click', () => {
-            const sectionId = item.dataset.section;
-            showMobileSection(sectionId);
-          });
-        });
-
-        // Close drawer on Escape key
-        document.addEventListener('keydown', (e) => {
-          if (e.key === 'Escape') {
-            if (navDrawer.classList.contains('open')) {
-              closeDrawer();
-            } else if (mobileSectionView.classList.contains('active')) {
-              hideMobileSection();
-            }
-          }
-        });
-      });
-    </script>
+    <TypewriterScript quotes={quotes} />
+    <InteractivityScript />
     <script src="/oneko.js" is:inline></script>
 </body>
 
